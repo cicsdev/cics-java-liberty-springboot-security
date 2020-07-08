@@ -21,26 +21,34 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-public class Application implements WebMvcConfigurer {
-
-	public static void main(String[] args) {
+public class Application implements WebMvcConfigurer 
+{
+	public static void main(String[] args) 
+	{
 		SpringApplication.run(Application.class, args);
 	}
+	
 	
 	/**
 	 * @param registry
 	 */
 	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
+	public void addViewControllers(ViewControllerRegistry registry) 
+	{
+		// Register our login page (found in the resources/templates folder) as a ViewController 
+		// The template 'login' HTML uses the Thymeleaf template engine for simplicity and convenience
 		registry.addViewController("/login").setViewName("login");
 	}
 
+	
+	/** This class allows you to override the default Web Security configuration */
 	@EnableWebSecurity(debug = false)
 	@Configuration
-	protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter {
-
+	protected static class ApplicationSecurity extends WebSecurityConfigurerAdapter 
+	{
 		@Override
-		protected void configure(HttpSecurity http) throws Exception {
+		protected void configure(HttpSecurity http) throws Exception 
+		{
 			http
 				.csrf().disable()
 				.authorizeRequests()
@@ -51,7 +59,5 @@ public class Application implements WebMvcConfigurer {
 				// Use Java EE pre-authentication and map these roles to Spring Security		
 				.jee().mappableRoles("USER", "ADMIN");
 		}
-
 	}
-
 }

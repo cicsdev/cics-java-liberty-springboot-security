@@ -23,9 +23,8 @@ import com.ibm.cics.server.InvalidRequestException;
 import com.ibm.cics.server.Task;
 
 @Controller
-public class WebSecureController {
-
-	
+public class WebSecureController 
+{
 	/**
 	 * @param model
 	 * @param auth
@@ -33,23 +32,23 @@ public class WebSecureController {
 	 * @throws InvalidRequestException
 	 */
 	@GetMapping("/")
-	public String home(Map<String, Object> model, Authentication auth) throws InvalidRequestException {
-		
-		// These values will be injected into home.html by the Thymeleaf templating engine
+	public String home(Map<String, Object> model, Authentication auth) throws InvalidRequestException 
+	{			
+		// When this endpoint is invoked, the following values will be injected 
+		// into home.html by the Thymeleaf templating engine
 		model.put("message", "Hello World");
 		model.put("title", "Hello Home");
 		model.put("date", new Date());
 		model.put("user", auth.getName());
 		model.put("roles", ((UserDetails) auth.getPrincipal()).getAuthorities());
 		
-		// Check if we are running in CICS
-		if (System.getProperty("com.ibm.cics.jvmserver.wlp.server.name") != null) {
+		// Additional fields to populate if we are running in CICS Liberty
+		if (System.getProperty("com.ibm.cics.jvmserver.wlp.server.name") != null) 
+		{
 			model.put("cicsuser", Task.getTask().getUSERID());
 			model.put("tranid", Task.getTask().getTransactionName());
 		}
 		
 		return "home";
-	}
-	
-	
+	}	
 }

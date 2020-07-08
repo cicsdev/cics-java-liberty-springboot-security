@@ -14,11 +14,12 @@ package com.ibm.cicsdev.springboot.security;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 
-public class ServletInitializer extends SpringBootServletInitializer {
-
+/** Standard Spring component to allow this application to be built and run as a Java EE application (WAR) */
+public class ServletInitializer extends SpringBootServletInitializer 
+{
 	@Override
-	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) {
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder application) 
+	{
 		return application.sources(Application.class);
 	}
-
 }
