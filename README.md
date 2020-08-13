@@ -12,7 +12,7 @@ The sample was built by combining the following existing Spring samples:
   [This article](https://spring.io/guides/gs/securing-web/) describes how some of this code works (although is based on a different sample project)
 - [Spring Security pre-authentication sample](https://github.com/spring-projects/spring-security/tree/master/samples/javaconfig/preauth)
 
-  Java EE preauthentication is descrbed in the [Spring security documentation](https://docs.spring.io/spring-security/site/docs/5.2.0.RELEASE/reference/html/jc-authentication.html#java-ee-container-authentication)
+  Java EE pre-authentication is described in the [Spring security documentation](https://docs.spring.io/spring-security/site/docs/5.2.0.RELEASE/reference/html/jc-authentication.html#java-ee-container-authentication)
 
 
 ## Prerequisites
@@ -24,6 +24,9 @@ The sample was built by combining the following existing Spring samples:
   - An Eclipse development environment on the workstation (optional)
   - Either Gradle or Apache Maven on the workstation (optional if using Wrappers)
 
+## Reference
+
+More information about the development of this sample can be found in the accompanying tutorial [Spring Boot Java applications for CICS - Part 2 - Security](blog/blog.md)
 
 ## Downloading
 
