@@ -7,10 +7,10 @@ User roles are also determined by Liberty configuration. The user ID and roles a
 CICS also uses the user ID when attaching the CICS task and for any CICS resource security checks. 
 
 The sample was built by combining the following existing Spring samples:
-- [Spring Boot secure web smoke test](https://github.com/spring-projects/spring-boot/tree/master/spring-boot-tests/spring-boot-smoke-tests/spring-boot-smoke-test-web-secure)  
+- [Spring Boot secure web smoke test](https://github.com/spring-projects/spring-boot/tree/main/spring-boot-tests/spring-boot-smoke-tests/spring-boot-smoke-test-web-secure)  
   
   [This article](https://spring.io/guides/gs/securing-web/) describes how some of this code works (although is based on a different sample project)
-- [Spring Security pre-authentication sample](https://github.com/spring-projects/spring-security/tree/master/samples/javaconfig/preauth)
+- [Spring Security pre-authentication sample](https://github.com/spring-projects/spring-security/tree/main/samples/javaconfig/preauth)
 
   Java EE pre-authentication is described in the [Spring security documentation](https://docs.spring.io/spring-security/site/docs/5.2.0.RELEASE/reference/html/jc-authentication.html#java-ee-container-authentication)
 
@@ -31,7 +31,7 @@ More information about the development of this sample can be found in the IBM de
 ## Downloading
 
 - Clone the repository using your IDEs support, such as the Eclipse Git plugin
-- **or**, download the sample as a [ZIP](https://github.com/cicsdev/cics-java-liberty-springboot-security/archive/master.zip) and unzip onto the workstation
+- **or**, download the sample as a [ZIP](https://github.com/cicsdev/cics-java-liberty-springboot-security/archive/main.zip) and unzip onto the workstation
 
 >*Tip: Eclipse Git provides an 'Import existing Projects' check-box when cloning a repository.*
 
