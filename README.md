@@ -25,7 +25,7 @@ The sample was built by combining the following existing Spring samples:
 
 ## Reference
 
-More information about the development of this sample can be found in the IBM developer tutorial [Spring Boot Java applications for CICS - Part 2 - Security](https://developer.ibm.com/components/ibmz/tutorials/spring-boot-java-applications-for-cics-part-2-security/)
+More information about the development of this sample can be found in the IBM developer tutorial [Spring Boot Java applications for CICS - Part 2 - Security](https://developer.ibm.com/tutorials/spring-boot-java-applications-for-cics-part-2-security/)
 
 ## Downloading
 
