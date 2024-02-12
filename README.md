@@ -1,4 +1,5 @@
 # cics-java-liberty-springboot-security
+[![Build](https://github.com/SoftlySplinter/cics-java-liberty-springboot-security/actions/workflows/java.yaml/badge.svg)](https://github.com/SoftlySplinter/cics-java-liberty-springboot-security/actions/workflows/java.yaml)
 
 This sample project demonstrates how you can write a Spring Boot application to integrate with CICS security when you deploy it to a CICS Liberty JVM server.       
 
