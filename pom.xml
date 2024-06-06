@@ -19,6 +19,10 @@
   <description>Spring Boot Web Secure Sample with Java EE pre-authentication</description>
   <properties>
     <java.version>1.8</java.version>
+
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.target>${java.version}</maven.compiler.target>
+    <maven.compiler.source>${java.version}</maven.compiler.source>
   </properties>
 
   <!-- CICS TS V5.5 BOM (as of May 2020) -->
