@@ -1,4 +1,4 @@
-<project 
+<project
   xmlns="http://maven.apache.org/POM/4.0.0"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -8,7 +8,8 @@
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
-    <version>2.7.0</version>
+    <version>3.5.14</version>
+    <relativePath/>
   </parent>
   
   <!-- Application properties -->
@@ -16,22 +17,22 @@
   <artifactId>cics-java-liberty-springboot-security</artifactId>
   <version>0.1.0</version>
   <name>cics-java-liberty-springboot-security</name>
-  <description>Spring Boot Web Secure Sample with Java EE pre-authentication</description>
+  <description>Spring Boot Web Secure Sample with Jakarta EE pre-authentication</description>
   <properties>
-    <java.version>1.8</java.version>
-
+    <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <maven.compiler.source>${java.version}</maven.compiler.source>
   </properties>
 
-  <!-- CICS TS V5.5 BOM (as of May 2020) -->
+  <!-- Dependency Management -->
   <dependencyManagement>
     <dependencies>
+      <!-- CICS TS V6.1 BOM (as of Sept 2024) -->
       <dependency>
         <groupId>com.ibm.cics</groupId>
         <artifactId>com.ibm.cics.ts.bom</artifactId>
-        <version>5.5-20200519131930-PH25409</version>
+        <version>6.1-20250812133513-PH63856</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -79,28 +80,14 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-maven-plugin</artifactId>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <release>${java.version}</release>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-	
-
-    <!-- 
-    Publishes artifacts to here if the deploy goal is used. 
-
-    The values here can be passed on the maven command line
-    using the -D flag syntax 
-  
-    for example:
-    -Dpublish_repo_snapshots_name=my-repo 
-    -->
-    <distributionManagement>
-        <snapshotRepository>
-            <id>${publish_repo_snapshots_name}</id>
-            <url>${publish_repo_snapshots_url}</url>
-        </snapshotRepository>
-        <repository>
-            <id>${publish_repo_releases_name}</id>
-            <url>${publish_repo_releases_url}</url>
-        </repository>
-    </distributionManagement>
 
 </project>
