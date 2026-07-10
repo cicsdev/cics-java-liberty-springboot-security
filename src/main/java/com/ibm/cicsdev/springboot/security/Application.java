@@ -51,7 +51,6 @@ public class Application implements WebMvcConfigurer
 		public SecurityFilterChain filterChain(HttpSecurity http) throws Exception
 		{
 			http
-				.csrf(csrf -> csrf.disable())
 				.authorizeHttpRequests(authz -> authz
 				        // Allow access to URLs required for form login
 				        .requestMatchers("/login", "/resources/**", "/j_security_check","css/**").permitAll()
