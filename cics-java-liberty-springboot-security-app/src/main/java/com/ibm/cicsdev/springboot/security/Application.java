@@ -63,10 +63,6 @@ public class Application implements WebMvcConfigurer
 				.csrf(csrf -> csrf
 				        .ignoringRequestMatchers(new AntPathRequestMatcher("/j_security_check"))
 				)
-				// Use Jakarta EE pre-authentication and map these roles to Spring Security.
-				// mappableRoles takes the bare role name WITHOUT the ROLE_ prefix —
-				// Spring Security adds ROLE_ automatically when creating the GrantedAuthority.
-				// The role name must also match the <security-role> declared in web.xml.
 				.jee(jee -> jee.mappableRoles("USER", "ADMIN"));
 			
 			return http.build();
