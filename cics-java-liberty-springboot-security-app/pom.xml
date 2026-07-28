@@ -27,7 +27,7 @@
   <!-- Dependency Management -->
   <dependencyManagement>
     <dependencies>
-      <!-- CICS TS V6.1 BOM (as of Sept 2024) -->
+      <!-- CICS TS V6.1 BOM -->
       <dependency>
         <groupId>com.ibm.cics</groupId>
         <artifactId>com.ibm.cics.ts.bom</artifactId>
