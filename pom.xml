@@ -2,7 +2,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <!-- Inherit defaults from Spring Boot Parent-->
   <parent>
     <groupId>org.springframework.boot</groupId>
@@ -10,7 +10,7 @@
     <version>3.5.14</version>
     <relativePath/>
   </parent>
-  
+
   <!-- ================================================================ -->
   <!-- Project Coordinates                                              -->
   <!-- ================================================================ -->
@@ -19,28 +19,16 @@
   <version>0.1.0</version>
   <description>Demo project for Spring Boot with CICS Security</description>
   <packaging>pom</packaging>
-  
+
   <properties>
     <java.version>17</java.version>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.release>${java.version}</maven.compiler.release>
     <cics.jvmserver>DFHWLP</cics.jvmserver>
+    <!-- CICS TS BOM version — canonical property referenced by both modules -->
+    <cics.bom.version>6.1-20250812133513-PH63856</cics.bom.version>
   </properties>
-  
-  <!-- Dependency Management -->
-  <dependencyManagement>
-    <dependencies>
-      <!-- CICS TS V6.1 BOM -->
-      <dependency>
-        <groupId>com.ibm.cics</groupId>
-        <artifactId>com.ibm.cics.ts.bom</artifactId>
-        <version>6.1-20250812133513-PH63856</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-  
+
   <!-- ================================================================ -->
   <!-- Modules                                                          -->
   <!-- ================================================================ -->
@@ -49,5 +37,19 @@
     <module>cics-java-liberty-springboot-security-cicsbundle</module>
   </modules>
 
-</project>
+  <!-- ================================================================ -->
+  <!-- Build Configuration                                              -->
+  <!-- ================================================================ -->
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <release>${java.version}</release>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
+</project>

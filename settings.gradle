@@ -1,10 +1,15 @@
 // ============================================================================
-// Root Project Configuration
+// Toolchain Configuration
 // ============================================================================
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
+// Configure toolchain resolver for auto-provisioning of JDKs
+plugins
+{
+	id 'org.gradle.toolchains.foojay-resolver-convention' version '0.9.0'
 }
 
+// ============================================================================
+// Root Project Configuration
+// ============================================================================
 rootProject.name = 'cics-java-liberty-springboot-security'
 
 // ============================================================================
@@ -12,5 +17,3 @@ rootProject.name = 'cics-java-liberty-springboot-security'
 // ============================================================================
 include(':cics-java-liberty-springboot-security-app')
 include(':cics-java-liberty-springboot-security-cicsbundle')
-
-
