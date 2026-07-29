@@ -18,6 +18,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -53,10 +54,15 @@ public class Application implements WebMvcConfigurer
 			http
 				.authorizeHttpRequests(authz -> authz
 				        // Allow access to URLs required for form login
-				        .requestMatchers("/login", "/resources/**", "/j_security_check","css/**").permitAll()
+				        .requestMatchers("/login", "/resources/**", "/j_security_check", "/css/**").permitAll()
 						.anyRequest().authenticated()
 				)
-				// Use Jakarta EE pre-authentication and map these roles to Spring Security
+				// Disable CSRF for j_security_check — this endpoint is handled by Liberty's
+				// Java EE form authentication, not by Spring Security, so no CSRF token is
+				// available in the form POST. All other endpoints retain CSRF protection.
+				.csrf(csrf -> csrf
+				        .ignoringRequestMatchers(new AntPathRequestMatcher("/j_security_check"))
+				)
 				.jee(jee -> jee.mappableRoles("USER", "ADMIN"));
 			
 			return http.build();
