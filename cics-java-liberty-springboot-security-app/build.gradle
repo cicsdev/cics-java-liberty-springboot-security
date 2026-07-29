@@ -9,51 +9,65 @@ plugins
 }
 
 group = 'com.ibm.cicsdev.springboot'
-archivesBaseName='cics-java-liberty-springboot-security'
 version = '0.1.0'
-
-
-// If in Eclipse, add Javadoc to the local project classpath
-eclipse
-{
-    classpath
-    {
-        downloadJavadoc = true
-    }
-}
-
-
-repositories
-{
-    mavenCentral()
-}
-
 
 java
 {
-    toolchain
-    {
-        languageVersion = JavaLanguageVersion.of(java_version)
-    }
+	toolchain
+	{
+		languageVersion = JavaLanguageVersion.of(java_version)
+	}
+}
+
+war
+{
+	archiveFileName = 'cics-java-liberty-springboot-security.war'
+}
+
+bootWar { enabled = false }
+
+eclipse
+{
+	classpath
+	{
+		downloadJavadoc = true
+	}
+	// Ensures Gradle Refresh sets the WTP context-root and web facet version correctly.
+	wtp
+	{
+		facet
+		{
+			facet name: 'jst.web', version: '6.0'
+		}
+		component
+		{
+			contextPath = 'cics-java-liberty-springboot-security'
+		}
+	}
+}
+
+repositories
+{
+	mavenCentral()
 }
 
 dependencies
 {
-    // Spring Boot web starter dependency
-    implementation("org.springframework.boot:spring-boot-starter-web")
-    
-    // Spring Boot security starter dependency
-    implementation("org.springframework.boot:spring-boot-starter-security")
-    
-    // Spring Boot thymeleaf view dependency
-    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+	// CICS TS BOM — version sourced from gradle.properties as cics.bom.version
+	compileOnly enforcedPlatform("com.ibm.cics:com.ibm.cics.ts.bom:${project.property('cics.bom.version')}")
 
-    // Don't include TomCat in the runtime build, but do put it in WEB-INF so it can be run standalone as well as embedded
-    providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
-  
-    // CICS BOM (as of Sept 2024)
-    compileOnly enforcedPlatform('com.ibm.cics:com.ibm.cics.ts.bom:6.1-20250812133513-PH63856')
-      
-    // Don't include JCICS in the final build (no need for version because we have BOM)
-    compileOnly("com.ibm.cics:com.ibm.cics.server")
+	// JCICS API (version inherited from BOM; no version needed here)
+	compileOnly("com.ibm.cics:com.ibm.cics.server")
+
+	// Spring Boot web starter dependency
+	implementation("org.springframework.boot:spring-boot-starter-web")
+
+	// Spring Boot security starter dependency
+	implementation("org.springframework.boot:spring-boot-starter-security")
+
+	// Spring Boot thymeleaf view dependency
+	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+
+	// Don't include TomCat in the runtime build
+	providedRuntime("org.springframework.boot:spring-boot-starter-tomcat")
 }

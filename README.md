@@ -1,163 +1,162 @@
 # cics-java-liberty-springboot-security
-[![Build](https://github.com/SoftlySplinter/cics-java-liberty-springboot-security/actions/workflows/java.yaml/badge.svg)](https://github.com/SoftlySplinter/cics-java-liberty-springboot-security/actions/workflows/java.yaml)
+[![Build](https://github.com/cicsdev/cics-java-liberty-springboot-security/actions/workflows/build.yaml/badge.svg)](https://github.com/cicsdev/cics-java-liberty-springboot-security/actions/workflows/build.yaml)
+[![License](https://img.shields.io/badge/License-EPL%202.0-green.svg)](https://www.eclipse.org/legal/epl-2.0/)
 
-This sample project demonstrates how you can write a Spring Boot application to integrate with CICS security when you deploy it to a CICS Liberty JVM server.       
+## Overview
 
-The application uses Java EE form authentication, validating users credentials using the Liberty user registry. 
-User roles are also determined by Liberty configuration. The user ID and roles are then passed to Spring Security, where they can be used for any authorization checks it wants to make. 
-CICS also uses the user ID when attaching the CICS task and for any CICS resource security checks. 
+This sample demonstrates how to write a Spring Boot application that integrates with CICS security when deployed to a CICS Liberty JVM server.
 
-The sample was built by combining the following existing Spring samples:
-- [Spring Boot secure web smoke test](https://github.com/spring-projects/spring-boot/tree/main/spring-boot-tests/spring-boot-smoke-tests/spring-boot-smoke-test-web-secure)  
-  
-  [This article](https://spring.io/guides/gs/securing-web/) describes how some of this code works (although is based on a different sample project)
-- [Spring Security pre-authentication sample](https://github.com/spring-projects/spring-security/tree/main/samples/javaconfig/preauth)
+The application uses Jakarta EE form authentication, validating user credentials using the Liberty SAF user registry. User roles are determined by Liberty configuration and passed to Spring Security for authorization checks. CICS uses the authenticated user ID when attaching the CICS task and for any CICS resource security checks.
 
-  Java EE pre-authentication is described in the [Spring security documentation](https://docs.spring.io/spring-security/site/docs/5.2.0.RELEASE/reference/html/jc-authentication.html#java-ee-container-authentication)
+**Key Features:**
+- Jakarta EE form-based authentication with CICS Liberty SAF registry
+- Spring Security pre-authentication using the container-authenticated identity
+- Role-based access control using `cicsAllAuthenticated` security role
+- Thymeleaf web templates for login and home pages
 
+## Table of Contents
+1. [Prerequisites](#prerequisites)
+2. [Reference](#reference)
+3. [Downloading](#downloading)
+4. [Check dependencies](#check-dependencies)
+5. [Building the Sample](#building-the-sample)
+6. [Deploying to a CICS Liberty JVM server](#deploying-to-a-cics-liberty-jvm-server)
+7. [Running the Sample](#running-the-sample)
+8. [License](#license)
+9. [Additional Resources](#additional-resources)
+10. [Contributing](#contributing)
 
 ## Prerequisites
 
-  - CICS TS V5.3 or later
-  - A configured Liberty JVM server in CICS
-  - Java SE 1.8 or later on the workstation
-  - An Eclipse development environment on the workstation (optional)
-  - Either Gradle or Apache Maven on the workstation (optional if using Wrappers)
+- CICS TS V6.1 or later
+- A configured Liberty JVM server in CICS
+- Java SE 17 or later on the workstation
+- Either Gradle or Apache Maven on the workstation (optional if using wrappers)
 
 ## Reference
 
-More information about the development of this sample can be found in the IBM developer tutorial [Spring Boot Java applications for CICS - Part 2 - Security](https://developer.ibm.com/tutorials/spring-boot-java-applications-for-cics-part-2-security/)
+- IBM Developer tutorial: [Spring Boot Java applications for CICS - Part 2 - Security](https://developer.ibm.com/tutorials/spring-boot-java-applications-for-cics-part-2-security/)
+- [Spring Security pre-authentication](https://docs.spring.io/spring-security/reference/servlet/authentication/preauth.html)
 
 ## Downloading
 
-- Clone the repository using your IDEs support, such as the Eclipse Git plugin
-- **or**, download the sample as a [ZIP](https://github.com/cicsdev/cics-java-liberty-springboot-security/archive/main.zip) and unzip onto the workstation
+- Clone the repository using your IDE's support, such as the Eclipse Git plugin
+- **or** download the sample as a [ZIP](https://github.com/cicsdev/cics-java-liberty-springboot-security/archive/main.zip) and unzip onto the workstation
 
->*Tip: Eclipse Git provides an 'Import existing Projects' check-box when cloning a repository.*
-
+> Tip: Eclipse Git provides an **Import existing Projects** checkbox when cloning a repository.
 
 ### Check dependencies
- 
-Before building this sample, you should verify that the correct CICS TS bill of materials (BOM) is specified for your target release of CICS. 
-The BOM specifies a consistent set of artifacts, and adds information about their scope. In the example below the version specified is compatible with CICS TS V5.5 with JCICS APAR PH25409, or newer. 
-That is, the Java byte codes built by compiling against this version of JCICS will be compatible with later CICS TS versions and subsequent JCICS APARs. 
-You can browse the published versions of the CICS BOM at [Maven Central.](https://mvnrepository.com/artifact/com.ibm.cics/com.ibm.cics.ts.bom)
- 
-Gradle (build.gradle): 
 
-`compileOnly enforcedPlatform("com.ibm.cics:com.ibm.cics.ts.bom:5.5-20200519131930-PH25409")`
+Before building this sample, verify that the correct CICS TS bill of materials (BOM) is specified for your target release of CICS. The BOM specifies a consistent set of artifacts and their scope. You can browse published BOM versions at [Maven Central](https://mvnrepository.com/artifact/com.ibm.cics/com.ibm.cics.ts.bom).
 
-Maven (POM.xml):
+The BOM version is centralised in:
 
-``` xml    
-<dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>com.ibm.cics</groupId>
-        <artifactId>com.ibm.cics.ts.bom</artifactId>
-        <version>5.5-20200519131930-PH25409</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
-    </dependencies>
-  </dependencyManagement>
-  ```
+- **Gradle** — `gradle.properties`: `cics.bom.version=6.1-20250812133513-PH63856`
+- **Maven** — root `pom.xml` `<properties>`: `<cics.bom.version>6.1-20250812133513-PH63856</cics.bom.version>`
 
-## Building 
+## Building the Sample
 
-You can build the sample using an IDE of your choice, or you can build it from the command line. For both approaches, using the supplied Gradle or Maven wrapper is the recommended way to get a consistent version of build tooling. 
+You can build the sample using an IDE of your choice, or from the command line. Using the supplied Gradle or Maven wrapper is the recommended approach for a consistent build tool version.
 
-On the command line, you simply swap the Gradle or Maven command for the wrapper equivalent, `gradlew` or `mvnw` respectively.
-  
-For an IDE, taking Eclipse as an example, the plug-ins for Gradle *buildship* and Maven *m2e* will integrate with the "Run As..." capability, allowing you to specify whether you want to build the project with a Wrapper, or a specific version of your chosen build tool.
-
-The required build-tasks are typically `clean bootWar` for Gradle and `clean package` for Maven. Once run, Gradle will generate a WAR file in the `build/libs` directory, while Maven will generate it in the `target` directory.
-
-**Note:** When building a WAR file for deployment to Liberty it is good practice to exclude Tomcat from the final runtime artifact. We demonstrate this in the pom.xml with the *provided* scope, and in build.gradle with the *providedRuntime()* dependency.
-
-**Note:** If you import the project to your IDE, you might experience local project compile errors. To resolve these errors you should run a tooling refresh on that project. For example, in Eclipse: right-click on "Project", select "Gradle -> Refresh Gradle Project", **or** right-click on "Project", select "Maven -> Update Project...".
-
->Tip: *In Eclipse, Gradle (buildship) is able to fully refresh and resolve the local classpath even if the project was previously updated by Maven. However, Maven (m2e) does not currently reciprocate that capability. If you previously refreshed the project with Gradle, you'll need to manually remove the 'Project Dependencies' entry on the Java build-path of your Project Properties to avoid duplication errors when performing a Maven Project Update.*  
-
-#### Gradle Wrapper (command line)
-
-Run the following in a local command prompt:
+#### Gradle Wrapper
 
 On Linux or Mac:
 
 ```shell
-./gradlew clean bootWar
-```
-On Windows:
-
-```shell
-gradlew.bat clean bootWar
-```
-
-This creates a WAR file inside the `build/libs` directory.
-
-#### Maven Wrapper (command line)
-
-
-Run the following in a local command prompt:
-
-On Linux or Mac:
-
-```shell
-./mvnw clean package
+./gradlew clean build
 ```
 
 On Windows:
 
 ```shell
-mvnw.cmd clean package
+gradlew.bat clean build
 ```
 
-This creates a WAR file inside the `target` directory.
+#### Maven Wrapper
 
+On Linux or Mac:
 
+```shell
+./mvnw clean verify
+```
 
-## Deploying
+On Windows:
 
-1. Ensure you have a SAF registry configured in `server.xml`.    
-1. Ensure you have the following features defined in your Liberty `server.xml`:           
-    - `<servlet-3.1>` or `<servlet-4.0>` depending on the version of Java EE in use.  
-    - `<cicsts:security-1.0>`        
-    > **Note:** `servlet-4.0` will only work for CICS TS V5.5 or later as this requires Java EE 8 support    
-1. Manually upload the WAR file from your *target* or *build/libs* directory to zFS 
-1. Add an `<application>` element to the Liberty `server.xml`. If you want to use Java EE security add an `<application-bnd>` sub-element specifying the userid to be granted access to the ROLE_USER. 
+```shell
+mvnw.cmd clean verify
+```
 
-For example the following application element can be used to grant the userid *MYUSER* access to the required role `ROLE_USER`.
- 
-``` XML
-<application id="cics-java-liberty-springboot-security-0.1.0"  
-    location="${server.config.dir}/springapps/cics-java-liberty-springboot-security-0.1.0.war"  
-    name="cics-java-liberty-springboot-security-0.1.0" type="war">
+Both commands produce a WAR file named `cics-java-liberty-springboot-security.war` — Gradle places it in `cics-java-liberty-springboot-security-app/build/libs/`, Maven in `cics-java-liberty-springboot-security-app/target/`.
+
+## Deploying to a CICS Liberty JVM server
+
+Ensure your Liberty `server.xml` includes the following features:
+
+```xml
+<featureManager>
+    <feature>servlet-6.0</feature>
+    <feature>cicsts:security-1.0</feature>
+</featureManager>
+```
+
+Also ensure a SAF registry is configured in `server.xml`. A sample configuration is provided in [`etc/config/liberty/server.xml`](etc/config/liberty/server.xml).
+
+### CICS Bundle Plugin Deployment (Gradle/Maven)
+
+The sample includes a CICS bundle module (`cics-java-liberty-springboot-security-cicsbundle`) that uses the CICS Bundle Plugin to package and deploy the application.
+
+1. Build the project as described above — this produces a CICS bundle ZIP in the `cicsbundle` module's output directory.
+2. Upload and install the bundle ZIP to CICS using your preferred method (DFHDPLOY, zOS Management Facility, or CICS Explorer).
+
+### CICS Explorer SDK Deployment
+
+A pre-configured Eclipse CICS bundle project (`cics-java-liberty-springboot-security-cicsbundle-eclipse`) is included at the repository root.
+
+1. Import the repository into Eclipse (File → Import → General → Existing Projects into Workspace, select the repository root).
+2. Perform a Gradle Refresh or Maven Update Project to resolve dependencies.
+3. Right-click `cics-java-liberty-springboot-security-cicsbundle-eclipse` → **Export Bundle Project to z/OS UNIX File System**.
+
+### Direct Liberty Application Deployment
+
+1. Copy `cics-java-liberty-springboot-security.war` to a zFS directory, for example `${server.config.dir}/springapps/`.
+2. Add the following to your Liberty `server.xml`, replacing `MYUSER` with a valid SAF user ID:
+
+```xml
+<application id="cics-java-liberty-springboot-security"
+    location="${server.config.dir}/springapps/cics-java-liberty-springboot-security.war"
+    name="cics-java-liberty-springboot-security" type="war">
     <application-bnd>
-            <security-role name="ROLE_USER">
-                <user name="MYUSER"/>
-         </security-role>
-      </application-bnd> 
+        <security-role name="cicsAllAuthenticated">
+            <user name="MYUSER"/>
+        </security-role>
+    </application-bnd>
 </application>
 ```
 
-Alternatively, you can use Liberty SAF authorization using EJBROLE profiles to give users access to the ROLE_USER role. 
+Alternatively, use Liberty SAF authorization with EJBROLE profiles to grant users access to the `cicsAllAuthenticated` role.
 
+## Running the Sample
 
-> **Note:** If you set the CICS SIT parameter `SEC=YES` and use autoconfiguration, CICS generates a server.xml including both the `cicsts:security-1.0` feature and a SAF registry. For more information, see [Configuring a Liberty JVM server](https://www.ibm.com/support/knowledgecenter/en/SSGMCP_5.5.0/configuring/java/config_jvmserver_liberty.html) in the CICS Knowledge Center.
-       
-## Trying out the sample
+1. Ensure the web application started successfully in Liberty by checking for message `CWWKT0016I` in `messages.log`:
 
-1. Ensure the web application started successfully in Liberty by checking for message `CWWKT0016I` in the Liberty messages.log:
-    - `A CWWKT0016I: Web application available (default_host): http://myzos.mycompany.com:httpPort/cics-java-liberty-springboot-security-0.1.0`
-    - `I SRVE0292I: Servlet Message - [com.ibm.cicsdev.springboot.security-0.1.0]:.Initializing Spring embedded WebApplicationContext`
+    ```
+    CWWKT0016I: Web application available (default_host): http://myzos.mycompany.com:httpPort/cics-java-liberty-springboot-security
+    ```
 
-2. Copy the context root from message CWWKT0016I e.g. `http://myzos.mycompany.com:32000/cics-java-liberty-springboot-security-0.1.0/`. 
+2. Open the URL in a browser and log in using a user ID that has been granted the `cicsAllAuthenticated` role.
 
-3. Visit the URL from the browser and log in using the user ID that was granted access to ROLE_USER.
-
-You should now be able to access the homepage for the applicaition.
+3. You should see the application home page, confirming that authentication and authorization succeeded.
 
 ## License
-This project is licensed under [Eclipse Public License - v 2.0](LICENSE). 
 
+This project is licensed under the [Eclipse Public License - v 2.0](LICENSE).
+
+## Additional Resources
+
+- [Developing Spring Boot applications for CICS](https://www.ibm.com/docs/en/cics-ts/6.1?topic=liberty-developing-spring-boot-applications)
+- [Configuring a Liberty JVM server](https://www.ibm.com/docs/en/cics-ts/6.1?topic=liberty-configuring-jvm-server)
+- [CICS TS BOM on Maven Central](https://mvnrepository.com/artifact/com.ibm.cics/com.ibm.cics.ts.bom)
+
+## Contributing
+
+This sample is maintained by IBM CICS development. We welcome bug reports and feature requests via GitHub Issues. Contributions are welcome and reviewed on a case-by-case basis — please read the [contributing guidelines](https://github.com/cicsdev/.github/blob/main/CONTRIBUTING.md) before opening a pull request. For CICS product questions, contact IBM Support.
