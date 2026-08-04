@@ -22,9 +22,10 @@ The application uses Jakarta EE form authentication, validating user credentials
 5. [Building the Sample](#building-the-sample)
 6. [Deploying to a CICS Liberty JVM server](#deploying-to-a-cics-liberty-jvm-server)
 7. [Running the Sample](#running-the-sample)
-8. [License](#license)
-9. [Additional Resources](#additional-resources)
-10. [Contributing](#contributing)
+8. [Troubleshooting](#troubleshooting)
+9. [License](#license)
+10. [Additional Resources](#additional-resources)
+11. [Contributing](#contributing)
 
 ## Prerequisites
 
@@ -146,6 +147,12 @@ Alternatively, use Liberty SAF authorization with EJBROLE profiles to grant user
 2. Open the URL in a browser and log in using a user ID that has been granted the `cicsAllAuthenticated` role.
 
 3. You should see the application home page, confirming that authentication and authorization succeeded.
+
+## Troubleshooting
+
+- **`403 Forbidden` after login** — the authenticated user ID has not been granted the `cicsAllAuthenticated` role. Check that the SAF user registry and EJBROLE profiles (or the `<application-bnd>` in `server.xml`) grant the user access to the role.
+- **`CWWKS9104A` in `messages.log`** — the SAF registry is not configured. Ensure `cicsts:security-1.0` is enabled and a SAF registry (`<safRegistry>`) is configured in `server.xml`.
+- **Login page not displayed** — check for `CWWKT0016I` in `messages.log` to confirm the application started; if absent, review `messages.log` for bundle or WAR deployment errors.
 
 ## License
 
