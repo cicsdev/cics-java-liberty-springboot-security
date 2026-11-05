@@ -1,9 +1,19 @@
 # cics-java-liberty-springboot-security
-[![Build](https://github.com/cicsdev/cics-java-liberty-springboot-security/actions/workflows/build.yaml/badge.svg?branch=springboot%2Fv3)](https://github.com/cicsdev/cics-java-liberty-springboot-security/actions/workflows/build.yaml)
+[![Build](https://github.com/cicsdev/cics-java-liberty-springboot-security/actions/workflows/build.yaml/badge.svg?branch=springboot%2Fv4)](https://github.com/cicsdev/cics-java-liberty-springboot-security/actions/workflows/build.yaml)
 [![License](https://img.shields.io/badge/License-EPL%202.0-green.svg)](https://www.eclipse.org/legal/epl-2.0/)
 
-> **Version note:** This branch targets Spring Boot 3.x (Jakarta EE 10, Java 17+).
-> For Spring Boot 4.x see the [springboot/v4](../../tree/springboot/v4) branch.
+> **Version note:** This branch targets Spring Boot 4.x (Jakarta EE 11, Java 21+).
+> For Spring Boot 3.x see the [springboot/v3](../../tree/springboot/v3) branch.
+
+> **Pre-publish actions required:**
+> 1. **CICS Explorer SDK classpath entry** in
+>    `cics-java-liberty-springboot-security-app/.classpath` references
+>    `JE.JEE_V11_R0` (Jakarta EE 11). This token is not yet present in CICS Explorer
+>    SDK. Once the SDK ships Jakarta EE 11 support, verify the entry resolves correctly.
+> 2. **`web.xml` descriptor version** is temporarily set to `6.0` (Servlet 6.0 XSD)
+>    because WTP does not yet recognise `version="6.1"` and throws an error on project
+>    refresh. Once WTP supports Servlet 6.1, update `web.xml` to use
+>    `web-app_6_1.xsd` and `version="6.1"`, and remove this notice.
 
 ## Overview
 
@@ -32,9 +42,9 @@ The application uses Jakarta EE form authentication, validating user credentials
 
 ## Prerequisites
 
-- CICS TS V6.1 or later
+- CICS TS V6.1 or later (required for Spring Boot 4.x and Jakarta EE 11 support)
 - A configured Liberty JVM server in CICS
-- Java SE 17 or later on the workstation
+- Java SE 21 or later on the workstation
 - Either Gradle or Apache Maven on the workstation (optional if using wrappers)
 
 ## Reference
@@ -44,8 +54,8 @@ The application uses Jakarta EE form authentication, validating user credentials
 
 ## Downloading
 
-- Clone the repository using your IDE's support, such as the Eclipse Git plugin (`git clone -b springboot/v3 https://github.com/cicsdev/cics-java-liberty-springboot-security`)
-- **or** download the sample as a [ZIP](https://github.com/cicsdev/cics-java-liberty-springboot-security/archive/springboot/v3.zip) and unzip onto the workstation
+- Clone the repository using your IDE's support, such as the Eclipse Git plugin (`git clone -b springboot/v4 https://github.com/cicsdev/cics-java-liberty-springboot-security`)
+- **or** download the sample as a [ZIP](https://github.com/cicsdev/cics-java-liberty-springboot-security/archive/springboot/v4.zip) and unzip onto the workstation
 
 > Tip: Eclipse Git provides an **Import existing Projects** checkbox when cloning a repository.
 
@@ -92,13 +102,15 @@ mvnw.cmd clean verify
 
 Both commands produce a WAR file named `cics-java-liberty-springboot-security.war` — Gradle places it in `cics-java-liberty-springboot-security-app/build/libs/`, Maven in `cics-java-liberty-springboot-security-app/target/`.
 
+**Note:** When building a WAR file for deployment to Liberty it is good practice to exclude the Tomcat embedded container from the final runtime artifact, as Liberty provides the servlet container. In Spring Boot 4.x, `spring-boot-starter-tomcat` includes `spring-boot-starter` as a compile dependency, which would incorrectly strip core Spring libraries from `WEB-INF/lib` if excluded wholesale. Instead, we exclude only `spring-boot-starter-tomcat-runtime` (the Tomcat embed jars) using the *provided* scope in pom.xml and *providedRuntime()* in build.gradle.
+
 ## Deploying to a CICS Liberty JVM server
 
 Ensure your Liberty `server.xml` includes the following features:
 
 ```xml
 <featureManager>
-    <feature>servlet-6.0</feature>
+    <feature>servlet-6.1</feature>
     <feature>cicsts:security-1.0</feature>
 </featureManager>
 ```
@@ -153,6 +165,7 @@ Alternatively, use Liberty SAF authorization with EJBROLE profiles to grant user
 
 ## Troubleshooting
 
+- **Application fails to start** — verify `servlet-6.1` is enabled in `server.xml` and check Liberty `messages.log` for errors.
 - **`403 Forbidden` after login** — the authenticated user ID has not been granted the `cicsAllAuthenticated` role. Check that the SAF user registry and EJBROLE profiles (or the `<application-bnd>` in `server.xml`) grant the user access to the role.
 - **`CWWKS9104A` in `messages.log`** — the SAF registry is not configured. Ensure `cicsts:security-1.0` is enabled and a SAF registry (`<safRegistry>`) is configured in `server.xml`.
 - **Login page not displayed** — check for `CWWKT0016I` in `messages.log` to confirm the application started; if absent, review `messages.log` for bundle or WAR deployment errors.

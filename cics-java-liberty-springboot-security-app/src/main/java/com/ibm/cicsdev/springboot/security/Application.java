@@ -18,7 +18,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
@@ -61,7 +60,7 @@ public class Application implements WebMvcConfigurer
 				// Java EE form authentication, not by Spring Security, so no CSRF token is
 				// available in the form POST. All other endpoints retain CSRF protection.
 				.csrf(csrf -> csrf
-				        .ignoringRequestMatchers(new AntPathRequestMatcher("/j_security_check"))
+				        .ignoringRequestMatchers("/j_security_check")
 				)
 				.jee(jee -> jee.mappableRoles("USER", "ADMIN"));
 			
