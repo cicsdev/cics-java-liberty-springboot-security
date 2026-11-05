@@ -1,6 +1,9 @@
 # cics-java-liberty-springboot-security
-[![Build](https://github.com/cicsdev/cics-java-liberty-springboot-security/actions/workflows/build.yaml/badge.svg)](https://github.com/cicsdev/cics-java-liberty-springboot-security/actions/workflows/build.yaml)
+[![Build](https://github.com/cicsdev/cics-java-liberty-springboot-security/actions/workflows/build.yaml/badge.svg?branch=springboot%2Fv3)](https://github.com/cicsdev/cics-java-liberty-springboot-security/actions/workflows/build.yaml)
 [![License](https://img.shields.io/badge/License-EPL%202.0-green.svg)](https://www.eclipse.org/legal/epl-2.0/)
+
+> **Version note:** This branch targets Spring Boot 3.x (Jakarta EE 10, Java 17+).
+> For Spring Boot 4.x see the [springboot/v4](../../tree/springboot/v4) branch.
 
 ## Overview
 
@@ -41,8 +44,8 @@ The application uses Jakarta EE form authentication, validating user credentials
 
 ## Downloading
 
-- Clone the repository using your IDE's support, such as the Eclipse Git plugin
-- **or** download the sample as a [ZIP](https://github.com/cicsdev/cics-java-liberty-springboot-security/archive/main.zip) and unzip onto the workstation
+- Clone the repository using your IDE's support, such as the Eclipse Git plugin (`git clone -b springboot/v3 https://github.com/cicsdev/cics-java-liberty-springboot-security`)
+- **or** download the sample as a [ZIP](https://github.com/cicsdev/cics-java-liberty-springboot-security/archive/springboot/v3.zip) and unzip onto the workstation
 
 > Tip: Eclipse Git provides an **Import existing Projects** checkbox when cloning a repository.
 
