@@ -137,7 +137,45 @@ A pre-configured Eclipse CICS bundle project (`cics-java-liberty-springboot-secu
 </application>
 ```
 
-Alternatively, use Liberty SAF authorization with EJBROLE profiles to grant users access to the `cicsAllAuthenticated` role.
+### SAF Authorization with RACF EJBROLE Profiles
+
+Alternatively, instead of using `<application-bnd>` in `server.xml`, you can use Liberty SAF authorization with RACF `EJBROLE` profiles to grant users access to the `cicsAllAuthenticated` role:
+
+1. Enable SAF authorization in your Liberty `server.xml` (using the security profile prefix `BBGZDFLT`):
+
+    ```xml
+    <safRegistry id="saf" />
+    <safAuthorization id="safAuth" profilePrefix="BBGZDFLT" />
+    ```
+
+2. Ensure the `EJBROLE` class is active and RACLISTed:
+
+    ```text
+    SETROPTS CLASSACT(EJBROLE) RACLIST(EJBROLE) GENERIC(EJBROLE)
+    ```
+
+3. Define the `EJBROLE` profile in RACF using the `BBGZDFLT` profile prefix:
+
+    - When deployed as a **CICS bundle** (application name `cics-java-liberty-springboot-security-app`):
+      ```text
+      RDEFINE EJBROLE BBGZDFLT.cics-java-liberty-springboot-security-app.cicsAllAuthenticated UACC(NONE)
+      ```
+    - When deployed directly as a **WAR application** (application name `cics-java-liberty-springboot-security`):
+      ```text
+      RDEFINE EJBROLE BBGZDFLT.cics-java-liberty-springboot-security.cicsAllAuthenticated UACC(NONE)
+      ```
+
+4. Grant `READ` access to the required user IDs or groups:
+
+    ```text
+    PERMIT BBGZDFLT.cics-java-liberty-springboot-security-app.cicsAllAuthenticated CLASS(EJBROLE) ID(MYUSER) ACCESS(READ)
+    ```
+
+5. Refresh the in-memory RACF `EJBROLE` profiles:
+
+    ```text
+    SETROPTS RACLIST(EJBROLE) REFRESH
+    ```
 
 ## Running the Sample
 
